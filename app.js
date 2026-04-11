@@ -1,10 +1,11 @@
 const BASE_URL = "http://localhost:8080";
 
 async function createShipment() {
-  console.log("STEP 1: Button clicked");
+  // STEP 1 — clear stale output
+  document.getElementById("result").innerText = "Loading...";
 
   const name = document.getElementById("name").value;
-  console.log("STEP 2: Input value =", name);
+  
 
   try {
     const res = await fetch(`${BASE_URL}/shipment`, {
@@ -15,24 +16,51 @@ async function createShipment() {
       body: JSON.stringify({ name })
     });
 
-    console.log("STEP 3: Response received", res);
-
     const data = await res.json();
-    console.log("STEP 4: Parsed JSON", data);
+    console.log("CREATE RESPONSE:", data);
+
+    // STEP 3 — auto-fill ID
+    document.getElementById("shipmentId").value = data.id;
+    console.log("Auto-filled ID:", document.getElementById("shipmentId").value);
 
     document.getElementById("result").innerText =
       JSON.stringify(data, null, 2);
 
   } catch (err) {
-    console.error("STEP ERROR:", err);
+    document.getElementById("result").innerText =
+      "Error creating shipment";
   }
 }
 
 async function getShipment() {
   const id = document.getElementById("shipmentId").value;
 
-  const res = await fetch(`${BASE_URL}/shipment/${id}`);
-  const data = await res.json();
+  // STEP 1 — clear stale output
+  document.getElementById("result").innerText = "Loading...";
 
-  document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+  // STEP 4 — logging (truth)
+  console.log("GET ID:", id);
+
+  try {
+    const res = await fetch(`${BASE_URL}/shipment/${id}`);
+
+    // STEP 4 — log status
+    console.log("STATUS:", res.status);
+
+    // STEP 2 — handle errors
+    if (!res.ok) {
+      document.getElementById("result").innerText =
+        "Shipment not found";
+      return;
+    }
+
+    const data = await res.json();
+
+    document.getElementById("result").innerText =
+      JSON.stringify(data, null, 2);
+
+  } catch (err) {
+    document.getElementById("result").innerText =
+      "Network error";
+  }
 }
