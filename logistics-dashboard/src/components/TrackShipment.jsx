@@ -3,14 +3,24 @@ import { useState } from "react";
 import { getShipment } from "../api/shipment";
 
 function TrackShipment({ setShipment }) {
+  const [loading, setLoading] = useState(false);
   const [id, setId] = useState("");
 
   const handleTrack = async () => {
+    if (!id.trim()) {
+      alert("Enter shipment ID");
+      return;
+    }
+
+    setLoading(true);
+
     try {
       const data = await getShipment(id);
       setShipment(data);
     } catch (err) {
       alert(err.message);
+    } finally {
+     setLoading(false);
     }
   };
 
@@ -27,10 +37,11 @@ function TrackShipment({ setShipment }) {
 
       <button
         onClick={handleTrack}
+        disabled={loading}
         className="bg-green-500 text-white px-4 py-2 rounded"
       >
-        Track
-      </button>
+        {loading ? "Tracking..." : "Track"}
+      </button>     
     </div>
   );
 }

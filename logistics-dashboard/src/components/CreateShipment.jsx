@@ -3,14 +3,25 @@ import { useState } from "react";
 import { createShipment } from "../api/shipment";
 
 function CreateShipment({ setShipment }) {
+  const [loading, setLoading] = useState(false);
   const [input, setInput] = useState("");
+ 
 
   const handleCreate = async () => {
+    if (!input.trim()) {
+      alert("Enter shipment details");
+      return;
+    }
+
+    setLoading(true);
+
     try {
       const data = await createShipment(input);
       setShipment(data);
     } catch (err) {
-      alert(err.message);
+    alert(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -27,10 +38,12 @@ function CreateShipment({ setShipment }) {
 
       <button
         onClick={handleCreate}
+        disabled={loading}
         className="bg-blue-500 text-white px-4 py-2 rounded"
       >
-        Create
+        {loading ? "Creating..." : "Create"}
       </button>
+  
     </div>
   );
 }
