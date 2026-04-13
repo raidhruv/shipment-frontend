@@ -2,22 +2,23 @@ import { useState, useEffect } from "react";
 import { updateShipment } from "../api/shipment";
 
 function UpdateShipment({ shipment, setShipment }) {
-  // SAFE INITIAL STATE
+
   const [status, setStatus] = useState(shipment?.status || "");
   const [location, setLocation] = useState(shipment?.location || "");
   const [loading, setLoading] = useState(false);
 
-  // EXIT EARLY IF NO SHIPMENT
-  if (!shipment) return null;
-
-  // SYNC FORM WHEN SHIPMENT CHANGES
+  // ✅ ALWAYS RUNS
   useEffect(() => {
-    setStatus(shipment.status);
-    setLocation(shipment.location);
+    if (shipment) {
+      setStatus(shipment.status || "");
+      setLocation(shipment.location || "");
+    }
   }, [shipment]);
 
+  // ✅ AFTER hooks
+  if (!shipment) return null;
+
   const handleUpdate = async () => {
-    // BUILD SMART PAYLOAD (ONLY CHANGES)
     const payload = {};
 
     if (status && status !== shipment.status) {
@@ -28,7 +29,6 @@ function UpdateShipment({ shipment, setShipment }) {
       payload.location = location;
     }
 
-    // NOTHING CHANGED
     if (Object.keys(payload).length === 0) {
       alert("No changes detected");
       return;
@@ -51,7 +51,6 @@ function UpdateShipment({ shipment, setShipment }) {
     <div className="bg-white p-6 rounded-2xl shadow-md border mt-6">
       <h2 className="text-xl font-semibold mb-4">Update Shipment</h2>
 
-      {/* STATUS */}
       <select
         value={status}
         onChange={(e) => setStatus(e.target.value)}
@@ -63,15 +62,12 @@ function UpdateShipment({ shipment, setShipment }) {
         <option value="delivered">Delivered</option>
       </select>
 
-      {/* LOCATION */}
       <input
-        placeholder="Update location"
         value={location}
         onChange={(e) => setLocation(e.target.value)}
         className="w-full border p-2 rounded mb-3"
       />
 
-      {/* BUTTON */}
       <button
         onClick={handleUpdate}
         disabled={loading}
