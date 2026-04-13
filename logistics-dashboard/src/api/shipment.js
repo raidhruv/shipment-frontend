@@ -36,3 +36,18 @@ export async function getShipment(id) {
   }
 }
 // UPDATE SHIPMENT
+export async function updateShipment(id, data) {
+  const res = await fetch(`http://localhost:8080/shipment/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to update shipment");
+  }
+
+  return await res.json();
+}

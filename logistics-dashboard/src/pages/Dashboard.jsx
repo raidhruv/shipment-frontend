@@ -3,6 +3,7 @@ import { useState } from "react";
 import CreateShipment from "../components/CreateShipment";
 import TrackShipment from "../components/TrackShipment";
 import ShipmentResult from "../components/ShipmentResult";
+import UpdateShipment from "../components/UpdateShipment";
 
 function Dashboard() {
   const [shipment, setShipment] = useState(null);
@@ -14,6 +15,7 @@ function Dashboard() {
 
       <div className="md:col-span-2">
         <ShipmentResult shipment={shipment} />
+        <UpdateShipment shipment={shipment} setShipment={setShipment} />
       </div>
     </div>
   );
