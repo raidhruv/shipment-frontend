@@ -2,34 +2,42 @@ import { useState, useEffect } from "react";
 import { updateShipment } from "../api/shipment";
 
 function UpdateShipment({ shipment, setShipment }) {
+  // SAFE INITIAL STATE
   const [status, setStatus] = useState(shipment?.status || "");
   const [location, setLocation] = useState(shipment?.location || "");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (shipment) {
-      setStatus(shipment.status);
-      setLocation(shipment.location);
-    }
-  }, [shipment]);
-
+  // EXIT EARLY IF NO SHIPMENT
   if (!shipment) return null;
 
+  // SYNC FORM WHEN SHIPMENT CHANGES
+  useEffect(() => {
+    setStatus(shipment.status);
+    setLocation(shipment.location);
+  }, [shipment]);
+
   const handleUpdate = async () => {
-    if (!status && !location) {
-        alert("Nothing to update");
-        return;
+    // BUILD SMART PAYLOAD (ONLY CHANGES)
+    const payload = {};
+
+    if (status && status !== shipment.status) {
+      payload.status = status;
     }
+
+    if (location && location !== shipment.location) {
+      payload.location = location;
+    }
+
+    // NOTHING CHANGED
+    if (Object.keys(payload).length === 0) {
+      alert("No changes detected");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const payload = {};
-
-      if (status) payload.status = status;
-      if (location) payload.location = location;
-
       const updated = await updateShipment(shipment.id, payload);
-
       setShipment(updated);
       alert("Shipment updated successfully");
     } catch (err) {
@@ -43,6 +51,7 @@ function UpdateShipment({ shipment, setShipment }) {
     <div className="bg-white p-6 rounded-2xl shadow-md border mt-6">
       <h2 className="text-xl font-semibold mb-4">Update Shipment</h2>
 
+      {/* STATUS */}
       <select
         value={status}
         onChange={(e) => setStatus(e.target.value)}
@@ -54,6 +63,7 @@ function UpdateShipment({ shipment, setShipment }) {
         <option value="delivered">Delivered</option>
       </select>
 
+      {/* LOCATION */}
       <input
         placeholder="Update location"
         value={location}
@@ -61,6 +71,7 @@ function UpdateShipment({ shipment, setShipment }) {
         className="w-full border p-2 rounded mb-3"
       />
 
+      {/* BUTTON */}
       <button
         onClick={handleUpdate}
         disabled={loading}
