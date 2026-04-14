@@ -51,3 +51,15 @@ export async function updateShipment(id, data) {
 
   return await res.json();
 }
+// DELETE SHIPMENT
+export async function deleteShipment(id) {
+  const res = await fetch(`http://localhost:8080/shipment/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete shipment");
+  }
+
+  return true;
+}

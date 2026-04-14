@@ -14,7 +14,7 @@ function Dashboard() {
       <TrackShipment setShipment={setShipment} />
 
       <div className="md:col-span-2">
-        <ShipmentResult shipment={shipment} />
+        <ShipmentResult shipment={shipment} setShipment={setShipment} />
         <UpdateShipment shipment={shipment} setShipment={setShipment} />
       </div>
     </div>

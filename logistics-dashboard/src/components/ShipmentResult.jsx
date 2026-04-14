@@ -1,4 +1,5 @@
-function ShipmentResult({ shipment }) {
+import { deleteShipment } from "../api/shipment";
+function ShipmentResult({ shipment, setShipment }) {
   if (!shipment) {
     return (
       <div className="bg-white p-6 rounded-2xl shadow-md border">
@@ -9,6 +10,18 @@ function ShipmentResult({ shipment }) {
       </div>
     );
   }
+  const handleDelete = async () => {
+    const confirmDelete = confirm("Are you sure you want to delete this shipment?");
+    if (!confirmDelete) return;
+
+    try {
+      await deleteShipment(shipment.id);
+      setShipment(null);
+      alert("Shipment deleted");
+    } catch (err) {
+      alert(err.message);
+    }
+  };
 
   return (
     <div className="bg-white p-6 rounded-2xl shadow-md border">
@@ -38,6 +51,12 @@ function ShipmentResult({ shipment }) {
         <p className="text-md">
           <span className="font-medium">Location:</span> {shipment.location}
         </p>
+        <button
+          onClick={handleDelete}
+          className="mt-4 bg-red-500 hover:bg-red-600 transition text-white px-4 py-2 rounded"
+        >
+          Delete Shipment
+        </button>
       </div>
     </div>
       );
