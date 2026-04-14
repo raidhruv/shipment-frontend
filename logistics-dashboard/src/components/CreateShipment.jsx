@@ -2,10 +2,14 @@
 import { useState } from "react";
 import { createShipment } from "../api/shipment";
 
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { Label } from "./ui/label";
+
 function CreateShipment({ setShipment }) {
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState("");
- 
 
   const handleCreate = async () => {
     if (!input.trim()) {
@@ -19,32 +23,39 @@ function CreateShipment({ setShipment }) {
       const data = await createShipment(input);
       setShipment(data);
     } catch (err) {
-    alert(err.message);
+      alert(err.message);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="bg-white p-4 rounded-xl shadow">
-      <h2 className="text-xl font-semibold mb-4">Create Shipment</h2>
+    <Card className="shadow-sm hover:shadow-md transition">
+      <CardHeader>
+        <CardTitle className="text-xl">Create Shipment</CardTitle>
+      </CardHeader>
 
-      <input
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Enter shipment details"
-        className="w-full border p-2 rounded mb-3"
-      />
+      <CardContent className="space-y-5">
 
-      <button
-        onClick={handleCreate}
-        disabled={loading}
-        className="bg-blue-500 hover:bg-blue-600 transition text-white px-4 py-2 rounded"
-      >
-        {loading ? "Creating..." : "Create"}
-      </button>
-  
-    </div>
+        <div className="space-y-2">
+          <Label className="text-sm font-medium">Shipment Details</Label>
+          <Input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Enter shipment details"
+          />
+        </div>
+
+        <Button
+          onClick={handleCreate}
+          disabled={loading}
+          className="w-full"
+        >
+          {loading ? "Creating..." : "Create Shipment"}
+        </Button>
+
+      </CardContent>
+    </Card>
   );
 }
 

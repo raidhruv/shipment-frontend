@@ -1,13 +1,17 @@
+//update shipment component
 import { useState, useEffect } from "react";
 import { updateShipment } from "../api/shipment";
 
-function UpdateShipment({ shipment, setShipment }) {
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { Label } from "./ui/label";
 
+function UpdateShipment({ shipment, setShipment }) {
   const [status, setStatus] = useState(shipment?.status || "");
   const [location, setLocation] = useState(shipment?.location || "");
   const [loading, setLoading] = useState(false);
 
-  // ✅ ALWAYS RUNS
   useEffect(() => {
     if (shipment) {
       setStatus(shipment.status || "");
@@ -15,7 +19,6 @@ function UpdateShipment({ shipment, setShipment }) {
     }
   }, [shipment]);
 
-  // ✅ AFTER hooks
   if (!shipment) return null;
 
   const handleUpdate = async () => {
@@ -27,6 +30,7 @@ function UpdateShipment({ shipment, setShipment }) {
 
     if (location && location !== shipment.location) {
       payload.location = location;
+      payload.appendTransit = true;
     }
 
     if (Object.keys(payload).length === 0) {
@@ -48,34 +52,48 @@ function UpdateShipment({ shipment, setShipment }) {
   };
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-md border mt-6">
-      <h2 className="text-xl font-semibold mb-4">Update Shipment</h2>
+    <Card className="shadow-sm hover:shadow-md transition">
+      <CardHeader>
+        <CardTitle className="text-xl">Update Shipment</CardTitle>
+      </CardHeader>
 
-      <select
-        value={status}
-        onChange={(e) => setStatus(e.target.value)}
-        className="w-full border p-2 rounded mb-3"
-      >
-        <option value="">Select Status</option>
-        <option value="created">Created</option>
-        <option value="in-transit">In Transit</option>
-        <option value="delivered">Delivered</option>
-      </select>
+      <CardContent className="space-y-5">
 
-      <input
-        value={location}
-        onChange={(e) => setLocation(e.target.value)}
-        className="w-full border p-2 rounded mb-3"
-      />
+        {/* STATUS */}
+        <div className="space-y-2">
+          <Label className="text-sm font-medium">Status</Label>
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            className="w-full border rounded-md p-2"
+          >
+            <option value="">Select Status</option>
+            <option value="created">Created</option>
+            <option value="in-transit">In Transit</option>
+            <option value="delivered">Delivered</option>
+          </select>
+        </div>
 
-      <button
-        onClick={handleUpdate}
-        disabled={loading}
-        className="bg-purple-500 hover:bg-purple-600 transition text-white px-4 py-2 rounded"
-      >
-        {loading ? "Updating..." : "Update"}
-      </button>
-    </div>
+        {/* LOCATION */}
+        <div className="space-y-2">
+          <Label className="text-sm font-medium">Location</Label>
+          <Input
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          />
+        </div>
+
+        {/* ACTION */}
+        <Button
+          onClick={handleUpdate}
+          disabled={loading}
+          className="w-full"
+        >
+          {loading ? "Updating..." : "Update Shipment"}
+        </Button>
+
+      </CardContent>
+    </Card>
   );
 }
 

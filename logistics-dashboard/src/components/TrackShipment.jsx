@@ -2,6 +2,11 @@
 import { useState } from "react";
 import { getShipment } from "../api/shipment";
 
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { Label } from "./ui/label";
+
 function TrackShipment({ setShipment }) {
   const [loading, setLoading] = useState(false);
   const [id, setId] = useState("");
@@ -20,29 +25,37 @@ function TrackShipment({ setShipment }) {
     } catch (err) {
       alert(err.message);
     } finally {
-     setLoading(false);
+      setLoading(false);
     }
   };
 
   return (
-    <div className="bg-white p-4 rounded-xl shadow">
-      <h2 className="text-xl font-semibold mb-4">Track Shipment</h2>
+    <Card className="shadow-sm hover:shadow-md transition">
+      <CardHeader>
+        <CardTitle className="text-xl">Track Shipment</CardTitle>
+      </CardHeader>
 
-      <input
-        value={id}
-        onChange={(e) => setId(e.target.value)}
-        placeholder="Enter shipment ID"
-        className="w-full border p-2 rounded mb-3"
-      />
+      <CardContent className="space-y-5">
 
-      <button
-        onClick={handleTrack}
-        disabled={loading}
-        className="bg-green-500 hover:bg-green-600 transition text-white px-4 py-2 rounded"
-      >
-        {loading ? "Tracking..." : "Track"}
-      </button>     
-    </div>
+        <div className="space-y-2">
+          <Label className="text-sm font-medium">Shipment ID</Label>
+          <Input
+            value={id}
+            onChange={(e) => setId(e.target.value)}
+            placeholder="Enter shipment ID"
+          />
+        </div>
+
+        <Button
+          onClick={handleTrack}
+          disabled={loading}
+          className="w-full"
+        >
+          {loading ? "Tracking..." : "Track Shipment"}
+        </Button>
+
+      </CardContent>
+    </Card>
   );
 }
 
