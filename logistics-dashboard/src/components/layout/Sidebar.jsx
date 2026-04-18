@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { NavLink } from "react-router-dom";
 import { Package, Truck, Search } from "lucide-react";
 
 export default function Sidebar() {
@@ -9,18 +9,41 @@ export default function Sidebar() {
         Logistics
       </div>
 
-      <nav className="flex flex-col gap-2">
-        <Button variant="ghost" className="justify-start gap-2">
+      <nav className="flex flex-col gap-1">
+
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `flex items-center gap-2 px-3 py-2 rounded-md text-sm ${
+              isActive ? "bg-gray-100 font-medium" : "hover:bg-gray-50"
+            }`
+          }
+        >
           <Package size={16} /> Dashboard
-        </Button>
+        </NavLink>
 
-        <Button variant="ghost" className="justify-start gap-2">
+        <NavLink
+          to="/create"
+          className={({ isActive }) =>
+            `flex items-center gap-2 px-3 py-2 rounded-md text-sm ${
+              isActive ? "bg-gray-100 font-medium" : "hover:bg-gray-50"
+            }`
+          }
+        >
           <Truck size={16} /> Create Shipment
-        </Button>
+        </NavLink>
 
-        <Button variant="ghost" className="justify-start gap-2">
+        <NavLink
+          to="/track"
+          className={({ isActive }) =>
+            `flex items-center gap-2 px-3 py-2 rounded-md text-sm ${
+              isActive ? "bg-gray-100 font-medium" : "hover:bg-gray-50"
+            }`
+          }
+        >
           <Search size={16} /> Track Shipment
-        </Button>
+        </NavLink>
+
       </nav>
 
     </aside>

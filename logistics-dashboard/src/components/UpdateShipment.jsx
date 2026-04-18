@@ -57,7 +57,7 @@ function UpdateShipment({ shipment, setShipment }) {
         <CardTitle className="text-xl">Update Shipment</CardTitle>
       </CardHeader>
 
-      <CardContent className="space-y-5">
+      <CardContent className="space-y-4">
 
         {/* STATUS */}
         <div className="space-y-2">
@@ -84,13 +84,16 @@ function UpdateShipment({ shipment, setShipment }) {
         </div>
 
         {/* ACTION */}
-        <Button
-          onClick={handleUpdate}
-          disabled={loading}
-          className="w-full"
-        >
-          {loading ? "Updating..." : "Update Shipment"}
-        </Button>
+        <div className="pt-2">
+          <Button
+            size="pill"
+            onClick={handleUpdate}
+            disabled={loading}
+            className="w-fit"
+          >
+            {loading ? "Updating..." : "Update Shipment"}
+          </Button>
+        </div>
 
       </CardContent>
     </Card>
