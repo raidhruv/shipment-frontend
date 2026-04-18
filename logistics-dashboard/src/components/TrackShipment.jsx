@@ -35,7 +35,7 @@ function TrackShipment({ setShipment }) {
         <CardTitle className="text-xl">Track Shipment</CardTitle>
       </CardHeader>
 
-      <CardContent className="space-y-5">
+      <CardContent className="space-y-4">
 
         <div className="space-y-2">
           <Label className="text-sm font-medium">Shipment ID</Label>
@@ -46,13 +46,16 @@ function TrackShipment({ setShipment }) {
           />
         </div>
 
-        <Button
-          onClick={handleTrack}
-          disabled={loading}
-          className="w-full"
-        >
-          {loading ? "Tracking..." : "Track Shipment"}
-        </Button>
+        <div className="pt-2">
+          <Button
+            size="pill"
+            onClick={handleTrack}
+            disabled={loading}
+            className="w-fit"
+          >
+            {loading ? "Tracking..." : "Track Shipment"}
+          </Button>
+        </div>
 
       </CardContent>
     </Card>

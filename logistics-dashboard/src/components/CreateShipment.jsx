@@ -35,9 +35,9 @@ function CreateShipment({ setShipment }) {
         <CardTitle className="text-xl">Create Shipment</CardTitle>
       </CardHeader>
 
-      <CardContent className="space-y-5">
+      <CardContent className="space-y-4">
 
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <Label className="text-sm font-medium">Shipment Details</Label>
           <Input
             value={input}
@@ -46,13 +46,16 @@ function CreateShipment({ setShipment }) {
           />
         </div>
 
-        <Button
-          onClick={handleCreate}
-          disabled={loading}
-          className="w-full"
-        >
-          {loading ? "Creating..." : "Create Shipment"}
-        </Button>
+        <div className="pt-2">
+          <Button
+            size="pill"
+            onClick={handleCreate}
+            disabled={loading}
+            className="w-fit"
+          >
+            {loading ? "Creating..." : "Create Shipment"}
+          </Button>
+        </div>
 
       </CardContent>
     </Card>

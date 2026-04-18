@@ -8,7 +8,7 @@ export default function ProgressTracker({ shipment }) {
           <>
             <div className="flex flex-col items-center">
               <div
-                className={`w-6 h-6 rounded-full flex items-center justify-center
+                className={`w-8 h-8 rounded-full flex items-center justify-center
                 ${isDone ? "bg-green-600 text-white" : "border-2 border-gray-400"}`}
               >
                 {isDone ? "✓" : ""}
