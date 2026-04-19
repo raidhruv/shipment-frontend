@@ -1,5 +1,5 @@
-const BASE_URL = "http://localhost:8080";
-
+const BASE_URL = import.meta.env.VITE_API_URL;
+console.log("API BASE:", BASE_URL);
 // CREATE SHIPMENT
 export async function createShipment(data) {
   try {
@@ -35,9 +35,10 @@ export async function getShipment(id) {
     throw err;
   }
 }
+
 // UPDATE SHIPMENT
 export async function updateShipment(id, data) {
-  const res = await fetch(`http://localhost:8080/shipment/${id}`, {
+  const res = await fetch(`${BASE_URL}/shipment/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -51,9 +52,10 @@ export async function updateShipment(id, data) {
 
   return await res.json();
 }
+
 // DELETE SHIPMENT
 export async function deleteShipment(id) {
-  const res = await fetch(`http://localhost:8080/shipment/${id}`, {
+  const res = await fetch(`${BASE_URL}/shipment/${id}`, {
     method: "DELETE",
   });
 
