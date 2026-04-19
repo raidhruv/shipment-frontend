@@ -7,7 +7,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 
-function UpdateShipment({ shipment, setShipment }) {
+function UpdateShipment({ shipment, setShipment  }) {
   const [status, setStatus] = useState(shipment?.status || "");
   const [location, setLocation] = useState(shipment?.location || "");
   const [loading, setLoading] = useState(false);
@@ -84,7 +84,8 @@ function UpdateShipment({ shipment, setShipment }) {
         </div>
 
         {/* ACTION */}
-        <div className="pt-2">
+        <div className="pt-2 flex gap-3">
+
           <Button
             size="pill"
             onClick={handleUpdate}
@@ -93,6 +94,7 @@ function UpdateShipment({ shipment, setShipment }) {
           >
             {loading ? "Updating..." : "Update Shipment"}
           </Button>
+
         </div>
 
       </CardContent>

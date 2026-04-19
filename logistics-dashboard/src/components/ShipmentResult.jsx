@@ -11,7 +11,7 @@ import { mapShipmentToUI } from "@/lib/shipmentMapper";
 
 import TransitTimeline from "./TransitTimeline";
 
-function ShipmentResult({ shipment, setShipment }) {
+function ShipmentResult({ shipment, setShipment, onDelete }) {
   if (!shipment) {
     return (
       <Card>
@@ -29,13 +29,17 @@ function ShipmentResult({ shipment, setShipment }) {
   }
 
   const handleDelete = async () => {
+    if (!onDelete) {
+      console.error("onDelete not passed");
+      return;
+    }
+
     const confirmDelete = confirm("Are you sure you want to delete this shipment?");
     if (!confirmDelete) return;
 
     try {
       await deleteShipment(shipment.id);
-      setShipment(null);
-      alert("Shipment deleted");
+      onDelete(shipment.id);
     } catch (err) {
       alert(err.message);
     }

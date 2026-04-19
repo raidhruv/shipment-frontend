@@ -21,7 +21,10 @@ function CreateShipment({ setShipment }) {
 
     try {
       const data = await createShipment(input);
-      setShipment(data);
+      setShipment({
+        ...data,
+        name: input,
+      });
     } catch (err) {
       alert(err.message);
     } finally {
